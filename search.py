@@ -7,17 +7,11 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI()
 
-# Load metadata created during embedding
 with open("quran_metadata.json", "r", encoding="utf-8") as f:
     metadata = json.load(f)
 
-# Load FAISS index
 index = faiss.read_index("quran.index")
 
-
-# -------------------------------
-# Embedding helper
-# -------------------------------
 def embed(text: str) -> np.ndarray:
     response = client.embeddings.create(
         model="text-embedding-3-large",
@@ -26,13 +20,9 @@ def embed(text: str) -> np.ndarray:
     return np.array(response.data[0].embedding, dtype="float32")
 
 
-# -------------------------------
-# Search
-# -------------------------------
 def search(query: str, k: int = 5):
     print(f"\nSearching for: {query}\n")
 
-    # Embed query
     q_vec = embed(query)
 
     # Search FAISS
@@ -49,9 +39,6 @@ def search(query: str, k: int = 5):
         print()
 
 
-# -------------------------------
-# Run script
-# -------------------------------
 if __name__ == "__main__":
     user_query = input("Enter your question: ")
     search(user_query)
