@@ -6,9 +6,6 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# --------------------------------
-# Load Quran metadata
-# --------------------------------
 with open("quran_metadata.json", "r", encoding="utf-8") as f:
     metadata = json.load(f)
 
@@ -16,7 +13,6 @@ lookup = {}
 for v in metadata:
     key = f"{v['surah_id']}:{v['verse_id']}"
     lookup[key] = v
-
 
 def get_verse_indexes(query: str, k: int = 5):
     response = client.chat.completions.create(
@@ -52,9 +48,6 @@ def get_verse_indexes(query: str, k: int = 5):
         print(content)
         return []
 
-# --------------------------------
-# Main search
-# --------------------------------
 def search(query: str, k: int = 5):
     print(f"\nQuery: {query}")
 
