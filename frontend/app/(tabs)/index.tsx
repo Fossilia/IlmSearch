@@ -8,15 +8,24 @@ import { useColorScheme } from '@/components/useColorScheme';
 
 // --- BEGIN index.tsx CONTENT ---
 
-export const MyComponent = () => {
+export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = React.useState('');
 
   return (
-    <Searchbar
-      placeholder="Search"
-      onChangeText={setSearchQuery}
-      value={searchQuery}
-    />
+    <View style={[styles.container]}>
+          
+      {/* Main Title */}
+      <Text style={[styles.title, { color: 'black' }]}>Qur'an & Hadith Search</Text>
+      <Text style={[styles.subtitle, { color: 'gray' }]}>Enter a topic or keyword</Text>
+    
+      <Searchbar
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+        style={styles.searchBar}
+      />
+
+    </View>
   );
 };
 
@@ -25,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center', // This is key for vertical centering
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   title: {
     fontSize: 30,
