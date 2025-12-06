@@ -15,8 +15,8 @@ export default function SearchScreen() {
     <View style={[styles.container]}>
           
       {/* Main Title */}
-      <Text style={[styles.title, { color: 'black' }]}>Qur'an & Hadith Search</Text>
-      <Text style={[styles.subtitle, { color: 'gray' }]}>Enter a topic or keyword</Text>
+      <Text style={[styles.title, { color: 'black' }]}>Ilm Search</Text>
+      <Text style={[styles.subtitle, { color: 'gray' }]}>Enter a topic or question</Text>
     
       <Searchbar
         placeholder="Search"
