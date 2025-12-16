@@ -1,8 +1,17 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from services.quran_service import search
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows all origins (good for development)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class SearchResponse(BaseModel):
     reference: str
