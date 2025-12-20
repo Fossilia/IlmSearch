@@ -10,18 +10,7 @@ import {
 import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'; 
 
 import styles from './styles'; 
-
-const API_URL = 'http://127.0.0.1:8000';
-
-// Define the shape of your data
-type SearchResult = {
-  reference: string;
-  surah_name: string | null;
-  verse_id: number | null;
-  arabic: string | null;
-  english: string | null;
-  error: string | null;
-};
+import { SearchResult, searchQuran } from '../../services/searchService';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,12 +28,7 @@ export default function SearchScreen() {
     setActiveTab('quran'); // Reset to default tab on new search
 
     try {
-      const url = `${API_URL}/search?q=${encodeURIComponent(searchQuery)}&k=3`;
-      const response = await fetch(url);
-      
-      if (!response.ok) throw new Error(`Error: ${response.status}`);
-
-      const data = await response.json();
+      const data = await searchQuran(searchQuery);
       setResults(data);
       
     } catch (error) {
