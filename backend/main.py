@@ -1,6 +1,8 @@
+from http.client import HTTPException
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from services.quran_service import search
+from services.hadith_service import fetch_hadith
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -28,3 +30,17 @@ def search_endpoint(
     k: int = 5
 ):
     return search(q, k)
+
+@app.get("/hadith/{book}/{number}")
+async def get_hadith(book: str, number: int):
+    """
+    Directly fetches a Hadith by book name and number.
+    Example: GET /hadith/bukhari/1
+    """
+    result = await fetch_hadith(book, number)
+    
+    if result.get("error"):
+        # Return a 404 if the hadith wasn't found
+        raise HTTPException(status_code=404, detail=result["error"])
+        
+    return result
