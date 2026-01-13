@@ -1,4 +1,4 @@
-from http.client import HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from services.quran_service import search

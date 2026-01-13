@@ -1,14 +1,9 @@
 import httpx
 import asyncio
 
-# Mapping specific book names to the API's edition format
-BOOK_MAPPINGS = {
-    "bukhari": {"eng": "eng-bukhari", "ara": "ara-bukhari"},
-    "muslim":  {"eng": "eng-muslim",  "ara": "ara-muslim"},
-    "abudawud": {"eng": "eng-abudawud", "ara": "ara-abudawud"},
-    "ibnmajah": {"eng": "eng-ibnmajah", "ara": "ara-ibnmajah"},
-    "tirmidhi": {"eng": "eng-tirmidhi", "ara": "ara-tirmidhi"},
-    "nasai":    {"eng": "eng-nasai",    "ara": "ara-nasai"}
+# Supported hadith books
+SUPPORTED_BOOKS = {
+    "bukhari", "muslim", "nawawi", "abudawud", "ibnmajah", "tirmidhi", "nasai"
 }
 
 def _extract_text(data):
@@ -55,10 +50,10 @@ async def fetch_hadith(book: str, number: int):
     """
     clean_book = book.lower().strip()
     
-    if clean_book not in BOOK_MAPPINGS:
-        return {"error": f"Book '{book}' not found. Available: {list(BOOK_MAPPINGS.keys())}"}
+    if clean_book not in SUPPORTED_BOOKS:
+        return {"error": f"Book '{book}' not found. Available: {sorted(SUPPORTED_BOOKS)}"}
 
-    editions = BOOK_MAPPINGS[clean_book]
+    editions = {"eng": f"eng-{clean_book}", "ara": f"ara-{clean_book}"}
     base_url = "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions"
     
     # Construct URLs
