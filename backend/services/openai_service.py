@@ -6,7 +6,7 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def get_verse_indexes(query: str, k: int = 5):
+def fetch_refs_from_openai(query: str, k: int = 5):
     response = client.chat.completions.create(
         model="gpt-4.1-mini",
         response_format={"type": "json_object"},

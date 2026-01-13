@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from services.quran_service import search
+from services.quran_service import get_quran_verses_by_refs
+from services.openai_service import fetch_refs_from_openai
 from services.hadith_service import fetch_hadith
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -26,10 +27,11 @@ class SearchResponse(BaseModel):
 
 @app.get("/search", response_model=list[SearchResponse])
 def search_endpoint(
-    q: str = Query(..., description="User query"),
-    k: int = 5
+    query: str = Query(..., description="User query"),
+    count: int = 5
 ):
-    return search(q, k)
+    refs = fetch_refs_from_openai(query, count)
+    return get_quran_verses_by_refs(refs)
 
 @app.get("/hadith/{book}/{number}")
 async def get_hadith(book: str, number: int):
