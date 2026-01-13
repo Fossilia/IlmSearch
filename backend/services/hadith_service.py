@@ -81,3 +81,33 @@ async def fetch_hadith(book: str, number: int):
             }
         except Exception as e:
             return {"error": str(e)}
+
+async def get_hadiths_by_refs(refs: list):
+    """
+    Each dict should have a 'ref' key like 'bukhari:1'.
+    """
+    async def dummy_error(error_msg):
+        return {"error": error_msg}
+    
+    tasks = []
+    for item in refs:
+        ref = item.get("ref")
+        if not ref:
+            tasks.append(dummy_error("Missing ref"))
+            continue
+        try:
+            book, num_str = ref.split(":", 1)
+            number = int(num_str)
+            tasks.append(fetch_hadith(book, number))
+        except ValueError:
+            tasks.append(dummy_error(f"Invalid ref format: {ref}"))
+    
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    
+    processed_results = []
+    for result in results:
+        if isinstance(result, Exception):
+            processed_results.append({"error": str(result)})
+        else:
+            processed_results.append(result)
+    return processed_results
