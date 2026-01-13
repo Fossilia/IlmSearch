@@ -27,14 +27,10 @@ def _extract_text(data):
         if isinstance(hadiths_list, list) and hadiths_list:
             target = hadiths_list[0]
 
-    # Now we have the single hadith object, look for the text field
-    # Common keys are 'text', 'hadith', or 'body'
     return target.get("text") or target.get("hadith") or target.get("body") or ""
 
 def _extract_grade(data):
-    """
-    Helper to extract grade safely.
-    """
+
     target = data
     if isinstance(data, list) and data:
         target = data[0]
@@ -45,9 +41,7 @@ def _extract_grade(data):
     return target.get("grades", []) or target.get("grade", [])
 
 async def fetch_hadith(book: str, number: int):
-    """
-    Fetches English and Arabic text for a specific Hadith.
-    """
+
     clean_book = book.lower().strip()
     
     if clean_book not in SUPPORTED_BOOKS:
@@ -56,13 +50,11 @@ async def fetch_hadith(book: str, number: int):
     editions = {"eng": f"eng-{clean_book}", "ara": f"ara-{clean_book}"}
     base_url = "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions"
     
-    # Construct URLs
     eng_url = f"{base_url}/{editions['eng']}/{number}.json"
     ara_url = f"{base_url}/{editions['ara']}/{number}.json"
 
     async with httpx.AsyncClient() as client:
         try:
-            # Fetch both languages at the same time
             eng_resp, ara_resp = await asyncio.gather(
                 client.get(eng_url),
                 client.get(ara_url)
@@ -74,7 +66,6 @@ async def fetch_hadith(book: str, number: int):
             eng_data = eng_resp.json()
             ara_data = ara_resp.json() if ara_resp.status_code == 200 else {}
             
-            # Use the helper to robustly find the text
             english_text = _extract_text(eng_data)
             arabic_text = _extract_text(ara_data)
             grades = _extract_grade(eng_data)
