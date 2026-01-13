@@ -10,12 +10,12 @@ import {
 import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'; 
 
 import styles from './styles'; 
-import { SearchResult, searchQuran } from '../../services/searchService';
+import { SearchResult, QuranResult, HadithResult, search } from '../../services/searchService';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<SearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false); // Controls the layout shift
   const [activeTab, setActiveTab] = useState<'quran' | 'hadith'>('quran');
 
@@ -28,7 +28,7 @@ export default function SearchScreen() {
     setActiveTab('quran'); // Reset to default tab on new search
 
     try {
-      const data = await searchQuran(searchQuery);
+      const data = await search(searchQuery, 3);
       setResults(data);
       
     } catch (error) {
@@ -39,8 +39,7 @@ export default function SearchScreen() {
     }
   };
 
-  // --- RENDER COMPONENT FOR LIST ITEMS ---
-  const renderItem = ({ item }: { item: SearchResult }) => {
+  const renderQuranItem = ({ item }: { item: QuranResult }) => {
     // Handle error/missing content case
     if (item.error) {
       return (
@@ -65,6 +64,37 @@ export default function SearchScreen() {
           
           <Text style={styles.arabicText}>{item.arabic}</Text>
           <Text style={styles.englishText}>{item.english}</Text>
+        </Card.Content>
+      </Card>
+    );
+  };
+
+  const renderHadithItem = ({ item }: { item: HadithResult }) => {
+    if (item.error) {
+      return (
+        <Card style={[styles.card, styles.errorCard]}>
+          <Card.Content>
+            <Text style={styles.errorText}>⚠️ {item.id || 'Unknown'}: {item.error}</Text>
+          </Card.Content>
+        </Card>
+      );
+    }
+
+    return (
+      <Card style={styles.card}>
+        <Card.Content>
+          <View style={styles.cardHeader}>
+            <Text style={styles.surahName}>{item.book}</Text>
+            <Text style={styles.verseRef}>{item.id?.split(":")[1]}</Text>
+          </View>
+          
+          <Divider style={styles.divider} />
+          
+          <Text style={styles.englishText}>{item.english}</Text>
+          <Text style={styles.arabicText}>{item.arabic}</Text>
+          {item.grade && item.grade.length > 0 && (
+            <Text style={styles.gradeText}>Grade: {item.grade.join(', ')}</Text>
+          )}
         </Card.Content>
       </Card>
     );
@@ -125,16 +155,20 @@ export default function SearchScreen() {
             <>
               {activeTab === 'quran' ? (
                 <FlatList
-                  data={results}
+                  data={results?.quran || []}
                   keyExtractor={(item, index) => item.reference + index}
-                  renderItem={renderItem}
+                  renderItem={renderQuranItem}
                   contentContainerStyle={styles.listContent}
                   showsVerticalScrollIndicator={false}
                 />
               ) : (
-                <View style={styles.placeholderContainer}>
-                  <Text style={styles.placeholderText}>Hadith search coming soon...</Text>
-                </View>
+                <FlatList
+                  data={results?.hadith || []}
+                  keyExtractor={(item, index) => (item.id || 'unknown') + index}
+                  renderItem={renderHadithItem}
+                  contentContainerStyle={styles.listContent}
+                  showsVerticalScrollIndicator={false}
+                />
               )}
             </>
           )}

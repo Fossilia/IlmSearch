@@ -111,6 +111,12 @@ export default StyleSheet.create({
     lineHeight: 24,
     color: '#333',
   },
+  gradeText: {
+    fontSize: 14,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 5,
+  },
   errorText: {
     color: '#C62828',
     fontStyle: 'italic',
