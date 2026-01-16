@@ -11,6 +11,8 @@ import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'
 
 import styles from './styles'; 
 import { SearchResult, QuranResult, HadithResult, search } from '../../services/searchService';
+import * as Clipboard from 'expo-clipboard';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,6 +20,10 @@ export default function SearchScreen() {
   const [results, setResults] = useState<SearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false); // Controls the layout shift
   const [activeTab, setActiveTab] = useState<'quran' | 'hadith'>('quran');
+
+   const copyToClipboard = async (text: string) => {
+    await Clipboard.setStringAsync(text);
+  };
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -66,16 +72,11 @@ export default function SearchScreen() {
           <Text style={styles.englishText}>{item.english}</Text>
 
           <Divider style={styles.divider} />
+          <TouchableOpacity 
+          onPress={() => copyToClipboard(`${item.arabic}\n\n${item.english}`)}>
+            <Feather name="copy" size={24} color="black" />
+          </TouchableOpacity>
 
-            <TouchableOpacity 
-            onPress={() => {
-              const textToCopy = `${item.arabic}\n\n${item.english}`;
-              // For React Native, you'd use a clipboard library
-              Alert.alert('Copied', 'Verse copied to clipboard');
-            }}
-            >
-            <Text>📋 Copy</Text>
-            </TouchableOpacity>
         </Card.Content>
       </Card>
     );
@@ -107,6 +108,11 @@ export default function SearchScreen() {
           {item.grade && item.grade.length > 0 && (
             <Text style={styles.gradeText}>Grade: {item.grade.join(', ')}</Text>
           )}
+          <Divider style={styles.divider} />
+          <TouchableOpacity 
+            onPress={() => copyToClipboard(`${item.arabic}\n\n${item.english}`)}>
+            <Feather name="copy" size={24} color="black" />
+          </TouchableOpacity>
         </Card.Content>
       </Card>
     );
