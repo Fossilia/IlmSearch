@@ -64,6 +64,18 @@ export default function SearchScreen() {
           
           <Text style={styles.arabicText}>{item.arabic}</Text>
           <Text style={styles.englishText}>{item.english}</Text>
+
+          <Divider style={styles.divider} />
+
+            <TouchableOpacity 
+            onPress={() => {
+              const textToCopy = `${item.arabic}\n\n${item.english}`;
+              // For React Native, you'd use a clipboard library
+              Alert.alert('Copied', 'Verse copied to clipboard');
+            }}
+            >
+            <Text>📋 Copy</Text>
+            </TouchableOpacity>
         </Card.Content>
       </Card>
     );
