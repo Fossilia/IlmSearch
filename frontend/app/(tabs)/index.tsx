@@ -31,7 +31,7 @@ export default function SearchScreen() {
     Keyboard.dismiss();
     setLoading(true);
     setHasSearched(true); // Triggers the "move up" animation effect
-    setActiveTab('quran'); // Reset to default tab on new search
+    setActiveTab('quran'); 
 
     try {
       const data = await search(searchQuery, 3);
@@ -121,11 +121,9 @@ export default function SearchScreen() {
   return (
     <View style={[
       styles.container, 
-      // Dynamically change alignment based on search state
       hasSearched ? { justifyContent: 'flex-start', paddingTop: 60 } : { justifyContent: 'center' }
     ]}>
       
-      {/* Header Titles (Hide them after search to save space, or keep them small) */}
       {!hasSearched && (
         <View style={{ alignItems: 'center' }}>
           <Text style={[styles.title, { color: 'black' }]}>Ilm Search</Text>
@@ -133,7 +131,6 @@ export default function SearchScreen() {
         </View>
       )}
 
-      {/* SEARCH BAR AREA */}
       <View style={styles.searchContainer}>
         <Searchbar
           placeholder="Search topics..."
@@ -145,7 +142,6 @@ export default function SearchScreen() {
         />
       </View>
 
-      {/* TABS & RESULTS AREA (Only visible after search) */}
       {hasSearched && (
         <View style={styles.resultsArea}>
           
