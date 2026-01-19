@@ -22,8 +22,11 @@ def fetch_refs_from_openai(query: str, k: int = 5):
                     "Rules:\n"
                     "1. Quran: Use format 'surah:ayah' (e.g., \"2:255\"). No ranges.\n"
                     "2. Hadith: Use format 'book:number' (e.g., \"bukhari:1\").\n"
-                    "   - Supported books: 'bukhari', 'muslim', 'nawawi'.\n"
+                    "   - Supported books: 'bukhari', 'muslim', 'nawawi40'.\n"
                     "   - Use Sunnah.com numbering.\n"
+                    "   - 'bukhari': Use standard USC-MSA numbering (1-7563).\n"
+                    "   - 'muslim': Use USC-MSA numbering (1-3033). WARNING: This often differs from standard Arabic numbering. If unsure, verify the USC-MSA ID.\n"
+                    "   - 'nawawi40': MAX NUMBER IS 42.\n"
                     "3. No commentary, no explanations, only valid JSON."
                 )
             },

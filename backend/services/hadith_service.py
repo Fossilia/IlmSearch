@@ -3,7 +3,7 @@ import asyncio
 
 # Supported hadith books
 SUPPORTED_BOOKS = {
-    "bukhari", "muslim", "nawawi", "abudawud", "ibnmajah", "tirmidhi", "nasai"
+    "bukhari", "muslim", "nawawi40", "abudawud", "ibnmajah", "tirmidhi", "nasai"
 }
 
 def _extract_text(data):
