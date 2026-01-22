@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'; 
 
-import styles from './styles'; 
+import styles from '@/components/styles';
 import { SearchResult, QuranResult, HadithResult, search } from '../../services/searchService';
 import * as Clipboard from 'expo-clipboard';
 import Feather from '@expo/vector-icons/Feather';
