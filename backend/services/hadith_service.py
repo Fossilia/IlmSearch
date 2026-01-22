@@ -3,7 +3,7 @@ import asyncio
 
 # Supported hadith books
 SUPPORTED_BOOKS = {
-    "bukhari", "muslim", "nawawi40", "abudawud", "ibnmajah", "tirmidhi", "nasai"
+    "bukhari", "muslim", "nawawi", "abudawud", "ibnmajah", "tirmidhi", "nasai"
 }
 
 def _extract_text(data):
@@ -53,6 +53,8 @@ async def fetch_hadith(book: str, number: int):
     eng_url = f"{base_url}/{editions['eng']}/{number}.json"
     ara_url = f"{base_url}/{editions['ara']}/{number}.json"
 
+    print(f"Fetching Hadith from URLs: {eng_url} and {ara_url}")
+    
     async with httpx.AsyncClient() as client:
         try:
             eng_resp, ara_resp = await asyncio.gather(

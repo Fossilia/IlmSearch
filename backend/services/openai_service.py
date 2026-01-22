@@ -8,7 +8,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def fetch_refs_from_openai(query: str, k: int = 5):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5-mini",
         response_format={"type": "json_object"},
         messages=[
             {
@@ -22,17 +22,19 @@ def fetch_refs_from_openai(query: str, k: int = 5):
                     "Rules:\n"
                     "1. Quran: Use format 'surah:ayah' (e.g., \"2:255\"). No ranges.\n"
                     "2. Hadith: Use format 'book:number' (e.g., \"bukhari:1\").\n"
-                    "   - Supported books: 'bukhari', 'muslim', 'nawawi40'.\n"
-                    "   - Use Sunnah.com numbering.\n"
-                    "   - 'bukhari': Use standard USC-MSA numbering (1-7563).\n"
-                    "   - 'muslim': Use USC-MSA numbering (1-3033). WARNING: This often differs from standard Arabic numbering. If unsure, verify the USC-MSA ID.\n"
-                    "   - 'nawawi40': MAX NUMBER IS 42.\n"
-                    "3. No commentary, no explanations, only valid JSON."
+                    "   - Supported books: 'bukhari', 'nasai', 'abudawud', 'ibnmajah', 'tirmidhi'.\n"
+                    "   - Use Sunnah.com numbering (USC-MSA numbering), here are the ranges:\n"
+                    "   - 'bukhari': (1-7563).\n"
+                    "   - 'nasai': (1-5758).\n"
+                    "   - 'abudawud': (1-5274).\n"
+                    "   - 'ibnmajah': (1-4341).\n"
+                    "   - 'tirmidhi': (1-3956).\n"
+                    "3. No commentary, no explanations, only valid JSON. can all be from one book if thats most relevant.\n"
                 )
             },
             {
                 "role": "user",
-                "content": f"Return the top {k} Quran verses and top {k} Hadith references for: {query}"
+                "content": f"Return the top {k} Quran verses and top {k} Hadith references (most relevant to the query) for: {query}"
             },
         ]
     )

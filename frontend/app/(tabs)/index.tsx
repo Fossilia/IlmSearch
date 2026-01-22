@@ -105,9 +105,6 @@ export default function SearchScreen() {
           
           <Text style={styles.englishText}>{item.english}</Text>
           <Text style={styles.arabicText}>{item.arabic}</Text>
-          {item.grade && item.grade.length > 0 && (
-            <Text style={styles.gradeText}>Grade: {item.grade.join(', ')}</Text>
-          )}
           <Divider style={styles.divider} />
           <TouchableOpacity 
             onPress={() => copyToClipboard(`${item.arabic}\n\n${item.english}`)}>
