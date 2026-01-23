@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
-import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'; 
+import { Searchbar, Card, Divider } from 'react-native-paper'; 
+import LottieView from 'lottie-react-native';
 
 import styles from '@/components/styles';
 import { SearchResult, QuranResult, HadithResult, search } from '../../services/searchService';
@@ -167,7 +168,14 @@ export default function SearchScreen() {
 
           {/* CONTENT AREA */}
           {loading ? (
-             <ActivityIndicator style={{ marginTop: 50 }} size="large" />
+            <View style={{ alignItems: 'center', marginTop: 50, height: 200 }}>
+              <LottieView
+                source={require('@/assets/Loader.json')}
+                autoPlay
+                loop
+                style={{ width: 150, height: 150 }}
+              />
+            </View>
           ) : (
             <>
               {activeTab === 'quran' ? (
