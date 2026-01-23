@@ -5,7 +5,8 @@ import {
   Keyboard, 
   Alert, 
   FlatList, 
-  TouchableOpacity 
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { Searchbar, ActivityIndicator, Card, Divider } from 'react-native-paper'; 
 
@@ -123,6 +124,11 @@ export default function SearchScreen() {
       
       {!hasSearched && (
         <View style={{ alignItems: 'center' }}>
+          <Image 
+            source={require('@/assets/images/logo.png')} 
+            style={{ width: 120, height: 120, marginBottom: 10 }} 
+            resizeMode="contain"
+          />
           <Text style={[styles.title, { color: 'black' }]}>Ilm Search</Text>
           <Text style={[styles.subtitle, { color: 'gray' }]}>Enter a topic or question</Text>
         </View>
