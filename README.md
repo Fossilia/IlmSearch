@@ -10,7 +10,7 @@
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=flat&logo=openai&logoColor=white)
 
-**A hybrid semantic search engine for Islamic texts that bridges the gap between Natural Language Understanding (AI) and Deterministic Data Integrity.**
+**A hybrid semantic search engine for religious texts that bridges the gap between Natural Language Understanding (AI) and Deterministic Data Integrity.**
 </div>
 
 ## The Problem
